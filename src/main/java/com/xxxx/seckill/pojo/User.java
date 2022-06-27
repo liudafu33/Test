@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zhoubin
@@ -40,7 +40,7 @@ public class User implements Serializable {
     /**
      * yan
      */
-    private String slat;
+    private String salt;
 
     /**
      * 头像
