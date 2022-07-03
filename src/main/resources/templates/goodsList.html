@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>商品列表</title>
-    <!--
+
     &lt;!&ndash; jquery &ndash;&gt;
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     &lt;!&ndash; bootstrap &ndash;&gt;
@@ -13,11 +13,11 @@
     &lt;!&ndash; layer &ndash;&gt;
     <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
     &lt;!&ndash; common.js &ndash;&gt;
-    <script type="text/javascript" th:src="@{/js/common.js}"></script>-->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 <body>
-<p th:text="'Hello' + ${user.nickname}"></p>
-<!--<div class="panel panel-default">
+
+<div class="panel panel-default">
     <div class="panel-heading">秒杀商品列表</div>
     <table class="table" id="goodslist">
         <tr>
@@ -37,6 +37,6 @@
             <td><a th:href="'/goodsDetail.html?goodsId='+${goods.id}">详情</a></td>
         </tr>
     </table>
-</div>-->
+</div>
 </body>
 </html>

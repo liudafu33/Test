@@ -12,6 +12,7 @@ import com.xxxx.seckill.vo.LoginVo;
 import com.xxxx.seckill.vo.RespBean;
 import com.xxxx.seckill.vo.RespBeanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -33,6 +34,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     /**
      * 登录
      * @param loginVo
@@ -40,7 +44,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     @Override
     public RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("2");
         String mobile=loginVo.getMobile();
         String password=loginVo.getPassword();
       //是否为空
@@ -67,10 +70,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //生成Cookie
         String ticket = UUIDUtil.uuid();
         System.out.println("ticket----------"+ticket);
+        //将用户信息存入Redis
+        redisTemplate.opsForValue().set("user"+ticket,user);
         //void getSession()方法相当于得到一个session对象，
         // 而void setAttribute()和String Attribute分别是对属性赋值和得到属性值的方法。
         request.getSession().setAttribute(ticket,user);
         CookieUtil.setCookie(request,response,"userTicket",ticket);
         return  RespBean.succes();
+    }
+
+    /**
+     * 根据cookie获取用户
+     * @param userTicket
+     * @return
+     */
+    @Override
+    public User getUserByCookie(String userTicket,HttpServletRequest request,HttpServletResponse response) {
+        if(StringUtils.isEmpty(userTicket)){
+            return null;
+        }
+        User user = (User) redisTemplate.opsForValue().get("user" + userTicket);
+        if(user!=null){
+            CookieUtil.setCookie(request,response,"userTicket",userTicket);
+        }
+        return user;
     }
 }
