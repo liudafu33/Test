@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/goods")
@@ -64,8 +66,44 @@ public class GoodsController {
         return "goodsList";
     }
 
+     /**
+     * 商品详情
+     * @param goodsId
+     */
+    @RequestMapping("toDetail/{goodsId}")
+    public String toDetail(Model model,User user,@PathVariable Long goodsId){
+        //@PathVariable 映射 URL 绑定的占位符
+        // 一般与@RequestMapping(method = RequestMethod.GET)一起使用
+        model.addAttribute("user",user);
+        //获取商品详情
+        GoodsVo goodsVo = goodsService.findGoodsVoByGoodsId(goodsId);
+        //时间设置
+        Date startDate = goodsVo.getStartDate();
+        Date endDate = goodsVo.getEndDate();
+        Date nowDate = new Date();
+        //秒杀状态
+        int secKillStatus=0;
+        //秒杀倒计时
+        int remainSeconds=0;
 
-    public void a(){
+        if(nowDate.before(startDate)){
+            //活动未开始
+            remainSeconds=((int)(startDate.getTime()-nowDate.getTime())/1000);
+
+        }else if(nowDate.after(endDate)){
+            //活动已结束
+            secKillStatus=2;
+            remainSeconds=-1;
+        }else {
+            //秒杀中
+            secKillStatus=1;
+            remainSeconds=0;
+        }
+        model.addAttribute("remainSeconds",remainSeconds);
+        model.addAttribute("secKillStatus",secKillStatus);
+        model.addAttribute("goods",goodsVo);
+        return "goodsDetail";
     }
+
 
 }

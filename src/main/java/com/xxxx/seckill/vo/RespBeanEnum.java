@@ -17,6 +17,10 @@ public enum  RespBeanEnum {
     MOBILE_ERROR(500211,"手机号码格式有误"),
     BIND_ERROR(500212,"参数校验异常"),
 
+    //秒杀5005xx
+    EMPTY_STOCK(500500,"库存不足"),
+    REPEATE_ERROR(500501,"该商品限购一件")
+
     ;
 
     private final Integer code;

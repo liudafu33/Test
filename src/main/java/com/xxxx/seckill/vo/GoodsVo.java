@@ -1,5 +1,6 @@
 package com.xxxx.seckill.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xxxx.seckill.pojo.Goods;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class GoodsVo extends Goods {
     private Integer stockCount;
 
     //开始时间
+    //@JsonFormat  //返回json数据的时候会编程yyyy-MM-dd HH:mm:ss
     private Date startDate;
 
     //结束时间
