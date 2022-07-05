@@ -16,6 +16,8 @@ import org.thymeleaf.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.alibaba.fastjson.JSON;
+
 import java.util.Date;
 
 @Controller
@@ -72,6 +74,7 @@ public class GoodsController {
      */
     @RequestMapping("toDetail/{goodsId}")
     public String toDetail(Model model,User user,@PathVariable Long goodsId){
+        System.out.println(JSON.toJSONString(user));
         //@PathVariable 映射 URL 绑定的占位符
         // 一般与@RequestMapping(method = RequestMethod.GET)一起使用
         model.addAttribute("user",user);

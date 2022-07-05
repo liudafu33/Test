@@ -58,7 +58,7 @@ public class SeckillController {
             model.addAttribute("errmsg",RespBeanEnum.REPEATE_ERROR.getMessage());
         }
 
-        Order order=orderService.seckill(user,goods);
+        Order order=orderService.seckill  (user,goods);
         model.addAttribute("order",order);
         model.addAttribute("goods",goods);
         return null;

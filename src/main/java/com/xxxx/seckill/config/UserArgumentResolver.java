@@ -22,6 +22,11 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     @Autowired
     private IUserService service;
 
+    /**
+     * 条件判断,如果符合条件才会执行下面的方法
+     * @param parameter 获取到的参数
+     * @return
+     */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         Class<?> parameterType = parameter.getParameterType();//parameter好像是参数,获取到类型
